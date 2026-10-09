@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="840" viewBox="0 0 1000 840">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#214e7a"/></marker></defs>
+<rect width="1000" height="840" fill="#fff"/>
+<g font-family="Arial, sans-serif" fill="#1d2939"><text x="40" y="40" font-size="25" font-weight="bold">Vehicle Data Quality Lab · Datenpflege und Updates</text><text x="40" y="67" font-size="14">Synthetische Daten · Lokaler Prozessablauf</text></g>
+<path d="M210 150V195" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M350 237H480" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="400" y="225" font-family="Arial, sans-serif" font-size="14" fill="#1d2939">Ja</text>
+<path d="M210 280V325" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="230" y="308" font-family="Arial, sans-serif" font-size="14" fill="#1d2939">Nein</text>
+<path d="M210 385V435" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M350 477H480" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="395" y="463" font-family="Arial, sans-serif" font-size="14" fill="#1d2939">Nein</text>
+<path d="M210 520V570" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="230" y="548" font-family="Arial, sans-serif" font-size="14" fill="#1d2939">Ja</text>
+<path d="M625 505V555" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M770 585H925V120H350" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="805" y="350" font-family="Arial, sans-serif" font-size="14" fill="#1d2939">Erneut einlesen</text>
+<path d="M210 630V695" fill="none" stroke="#214e7a" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="70" y="90" width="280" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="125.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">CSV / Excel bereitstellen</text>
+<polygon points="210.0,195 350,237.5 210.0,280 70,237.5" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="232.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Inhalt bereits</text>
+<text x="210.0" y="252.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">bearbeitet?</text>
+<rect x="480" y="205" width="230" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="595.0" y="240.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Überspringen</text>
+<rect x="70" y="325" width="280" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="360.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Format + 5 Regeln prüfen</text>
+<polygon points="210.0,435 350,477.5 210.0,520 70,477.5" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="472.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Alle Zeilen</text>
+<text x="210.0" y="492.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">gültig?</text>
+<rect x="480" y="445" width="290" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="625.0" y="480.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Datei ablehnen · Fehler erfassen</text>
+<rect x="480" y="555" width="290" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="625.0" y="590.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Datei korrigieren</text>
+<rect x="40" y="570" width="340" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="605.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">Transaktion: Update + Änderungslog</text>
+<rect x="40" y="695" width="340" height="60" rx="12" fill="#edf3f8" stroke="#214e7a" stroke-width="2"/>
+<text x="210.0" y="730.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1d2939">8 SQL-Abfragen + Excel-Bericht</text>
+<text x="40" y="805" font-family="Arial, sans-serif" font-size="14" fill="#526273">Bei Fehlern bleibt der Angebotsbestand unverändert. Korrigierte Inhalte werden neu geprüft.</text></svg>

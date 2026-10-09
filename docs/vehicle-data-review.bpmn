@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="VehicleDataQualityDefinitions" targetNamespace="https://github.com/i8r4him/vehicle-data-quality-lab/bpmn">
+  <bpmn:process id="VehicleDataQualityReview" name="Vehicle Data Quality: Datenpflege und manuelle KI-Prüfung" isExecutable="false">
+    <bpmn:startEvent id="start" name="Datei bereit">
+      <bpmn:outgoing>f1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="validate" name="Datei prüfen">
+      <bpmn:incoming>f1</bpmn:incoming>
+      <bpmn:incoming>f13</bpmn:incoming>
+      <bpmn:outgoing>f2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="valid" name="Gültig?" default="f6">
+      <bpmn:incoming>f2</bpmn:incoming>
+      <bpmn:outgoing>f3</bpmn:outgoing>
+      <bpmn:outgoing>f6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="update" name="Bestand aktualisieren">
+      <bpmn:incoming>f3</bpmn:incoming>
+      <bpmn:outgoing>f4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="report" name="Bericht erzeugen">
+      <bpmn:incoming>f4</bpmn:incoming>
+      <bpmn:outgoing>f5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="end" name="Abgeschlossen">
+      <bpmn:incoming>f5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="errors" name="Fehler protokollieren">
+      <bpmn:incoming>f6</bpmn:incoming>
+      <bpmn:outgoing>f7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="ai" name="KI-Erklärung anfordern">
+      <bpmn:incoming>f7</bpmn:incoming>
+      <bpmn:outgoing>f8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="review" name="Vorschlag fachlich prüfen">
+      <bpmn:incoming>f8</bpmn:incoming>
+      <bpmn:outgoing>f9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="approved" name="Korrektur belegbar?" default="f11">
+      <bpmn:incoming>f9</bpmn:incoming>
+      <bpmn:outgoing>f10</bpmn:outgoing>
+      <bpmn:outgoing>f11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="clarify" name="Quelle fachlich klären">
+      <bpmn:incoming>f11</bpmn:incoming>
+      <bpmn:outgoing>f12</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="correct" name="Quelldatei korrigieren">
+      <bpmn:incoming>f10</bpmn:incoming>
+      <bpmn:incoming>f12</bpmn:incoming>
+      <bpmn:outgoing>f13</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="f1" sourceRef="start" targetRef="validate" />
+    <bpmn:sequenceFlow id="f2" sourceRef="validate" targetRef="valid" />
+    <bpmn:sequenceFlow id="f3" sourceRef="valid" targetRef="update" name="Ja">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">valid</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="f4" sourceRef="update" targetRef="report" />
+    <bpmn:sequenceFlow id="f5" sourceRef="report" targetRef="end" />
+    <bpmn:sequenceFlow id="f6" sourceRef="valid" targetRef="errors" name="Nein" />
+    <bpmn:sequenceFlow id="f7" sourceRef="errors" targetRef="ai" />
+    <bpmn:sequenceFlow id="f8" sourceRef="ai" targetRef="review" />
+    <bpmn:sequenceFlow id="f9" sourceRef="review" targetRef="approved" />
+    <bpmn:sequenceFlow id="f10" sourceRef="approved" targetRef="correct" name="Ja">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">correction_confirmed</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="f11" sourceRef="approved" targetRef="clarify" name="Nein" />
+    <bpmn:sequenceFlow id="f12" sourceRef="clarify" targetRef="correct" />
+    <bpmn:sequenceFlow id="f13" sourceRef="correct" targetRef="validate" name="Erneut prüfen" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="VehicleDataQualityDiagram">
+    <bpmndi:BPMNPlane id="VehicleDataQualityPlane" bpmnElement="VehicleDataQualityReview">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="60" y="150" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="validate_di" bpmnElement="validate">
+        <dc:Bounds x="150" y="130" width="160" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="valid_di" bpmnElement="valid">
+        <dc:Bounds x="365" y="143" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="update_di" bpmnElement="update">
+        <dc:Bounds x="475" y="130" width="180" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="report_di" bpmnElement="report">
+        <dc:Bounds x="715" y="130" width="160" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="935" y="150" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="errors_di" bpmnElement="errors">
+        <dc:Bounds x="300" y="295" width="180" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ai_di" bpmnElement="ai">
+        <dc:Bounds x="540" y="295" width="190" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="review_di" bpmnElement="review">
+        <dc:Bounds x="790" y="295" width="200" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="approved_di" bpmnElement="approved">
+        <dc:Bounds x="865" y="435" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="clarify_di" bpmnElement="clarify">
+        <dc:Bounds x="570" y="425" width="200" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="correct_di" bpmnElement="correct">
+        <dc:Bounds x="300" y="580" width="190" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1">
+        <di:waypoint x="96" y="168" />
+        <di:waypoint x="150" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2">
+        <di:waypoint x="310" y="168" />
+        <di:waypoint x="365" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3">
+        <di:waypoint x="415" y="168" />
+        <di:waypoint x="475" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4">
+        <di:waypoint x="655" y="168" />
+        <di:waypoint x="715" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5">
+        <di:waypoint x="875" y="168" />
+        <di:waypoint x="935" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6">
+        <di:waypoint x="390" y="193" />
+        <di:waypoint x="390" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7">
+        <di:waypoint x="480" y="333" />
+        <di:waypoint x="540" y="333" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8">
+        <di:waypoint x="730" y="333" />
+        <di:waypoint x="790" y="333" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9">
+        <di:waypoint x="890" y="371" />
+        <di:waypoint x="890" y="435" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10">
+        <di:waypoint x="890" y="485" />
+        <di:waypoint x="890" y="618" />
+        <di:waypoint x="490" y="618" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11">
+        <di:waypoint x="865" y="460" />
+        <di:waypoint x="770" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12">
+        <di:waypoint x="670" y="501" />
+        <di:waypoint x="670" y="555" />
+        <di:waypoint x="395" y="555" />
+        <di:waypoint x="395" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13">
+        <di:waypoint x="300" y="618" />
+        <di:waypoint x="230" y="618" />
+        <di:waypoint x="230" y="206" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

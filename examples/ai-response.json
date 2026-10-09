@@ -1,0 +1,34 @@
+{
+  "suggestions": [
+    {
+      "case_id": "REQUIRED",
+      "explanation": "In Zeile 4 fehlt die Monatsrate im Pflichtfeld price_eur. Das Angebot kann ohne diesen Wert nicht vollständig geprüft werden.",
+      "next_step": "Die freigegebene Monatsrate beim zuständigen Fachbereich oder in der Quelldatei nachschlagen und den belegten Wert ergänzen. Keinen Preis schätzen.",
+      "needs_human_review": true
+    },
+    {
+      "case_id": "DUPLICATE",
+      "explanation": "Die Angebots-ID kommt in den Zeilen 2 und 3 mehrfach vor. Die Datei enthält dadurch keine eindeutige Zuordnung für dieses Angebot.",
+      "next_step": "Beide Quellzeilen vergleichen und fachlich klären, welcher Datensatz gültig ist. Erst nach dieser Klärung die doppelte Zeile entfernen oder eine belegte Korrektur übernehmen.",
+      "needs_human_review": true
+    },
+    {
+      "case_id": "FOREIGN_KEY",
+      "explanation": "In Zeile 6 ist der Fahrzeugbezug unbekannt. Die angegebene Fahrzeug-ID lässt sich nicht dem vorhandenen Stammdatenbestand zuordnen.",
+      "next_step": "Die Fahrzeug-ID mit dem freigegebenen Fahrzeugstamm abgleichen. Einen Tippfehler nur anhand einer belegten Zuordnung korrigieren; fehlende Stammdaten fachlich klären.",
+      "needs_human_review": true
+    },
+    {
+      "case_id": "VALUE",
+      "explanation": "Die Monatsrate in Zeile 5 erfüllt die Preisregel nicht. Zulässig ist nur eine positive Rate mit höchstens zwei Nachkommastellen.",
+      "next_step": "Die Preisangabe in der Quelle prüfen und eine bestätigte positive Monatsrate übernehmen. Das Vorzeichen nicht einfach entfernen und keinen Ersatzpreis erfinden.",
+      "needs_human_review": true
+    },
+    {
+      "case_id": "STALE_UPDATE",
+      "explanation": "Die Änderung in Zeile 7 besitzt keinen neueren Datenstand als das vorhandene Angebot. Das Update könnte einen gültigen Bestand mit älteren Daten überschreiben.",
+      "next_step": "Den fachlich aktuellen Datenstand mit der Quelle vergleichen und gegebenenfalls eine neuere freigegebene Datei anfordern. Das Datum nicht nur zur Umgehung der Prüfung hochsetzen.",
+      "needs_human_review": true
+    }
+  ]
+}

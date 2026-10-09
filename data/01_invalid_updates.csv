@@ -1,0 +1,7 @@
+offer_id,vehicle_id,product,price_eur,term_months,annual_mileage,updated_at
+DUP01,V001,Leasing,300.00,36,10000,2026-10-01
+DUP01,V001,Leasing,310.00,36,10000,2026-10-01
+MISSING,V002,Leasing,,36,10000,2026-10-01
+NEGATIVE,V003,Leasing,-15.00,36,10000,2026-10-01
+UNKNOWN,V999,Leasing,299.00,36,10000,2026-10-01
+OFF001,V001,Leasing,319.00,36,10000,2026-08-01

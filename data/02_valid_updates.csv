@@ -1,0 +1,5 @@
+offer_id,vehicle_id,product,price_eur,term_months,annual_mileage,updated_at
+OFF001,V001,Leasing,349.00,36,10000,2026-10-01
+OFF002,V002,Finanzierung,399.00,48,15000,2026-09-01
+OFF005,V003,Leasing,269.90,36,12000,2026-10-01
+OFF006,V004,Finanzierung,479.50,48,20000,2026-10-01

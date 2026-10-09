@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+demo-output/
+state/
+reports/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.DS_Store
+response.json
+.env
+.env.*

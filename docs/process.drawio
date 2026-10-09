@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="VehicleDataQuality-Ablauf" id="vehicle_data_quality-process">
+    <mxGraphModel dx="1000" dy="900" grid="1" gridSize="10" page="1" pageWidth="1000" pageHeight="900">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" value="CSV / Excel bereitstellen" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="90" width="280" height="60" />
+        </mxCell>
+        <mxCell id="hash" value="Inhalt bereits bearbeitet?" style="rhombus;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="195" width="280" height="85" />
+        </mxCell>
+        <mxCell id="skip" value="Überspringen" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="480" y="205" width="230" height="60" />
+        </mxCell>
+        <mxCell id="check" value="Format + 5 Regeln prüfen" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="325" width="280" height="60" />
+        </mxCell>
+        <mxCell id="valid" value="Alle Zeilen gültig?" style="rhombus;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="70" y="435" width="280" height="85" />
+        </mxCell>
+        <mxCell id="reject" value="Datei ablehnen · Fehler erfassen" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="480" y="445" width="290" height="60" />
+        </mxCell>
+        <mxCell id="fix" value="Datei korrigieren" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="480" y="555" width="290" height="60" />
+        </mxCell>
+        <mxCell id="update" value="Transaktion: Update + Änderungslog" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="570" width="340" height="60" />
+        </mxCell>
+        <mxCell id="report" value="8 SQL-Abfragen + Excel-Bericht" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#edf3f8;strokeColor=#214e7a;fontColor=#1d2939;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="695" width="340" height="60" />
+        </mxCell>
+        <mxCell id="edge0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="start" target="hash">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge1" value="Ja" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="hash" target="skip">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge2" value="Nein" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="hash" target="check">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="check" target="valid">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge4" value="Nein" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="valid" target="reject">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge5" value="Ja" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="valid" target="update">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="reject" target="fix">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge7" value="Erneut einlesen" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="fix" target="start">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=0;strokeColor=#214e7a;fontSize=13;" edge="1" parent="1" source="update" target="report">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
