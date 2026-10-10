@@ -21,6 +21,16 @@ python -m vehicle_data_quality demo
 python -m unittest discover -s tests -v
 ```
 
+Für die zusätzlichen Gherkin-Abnahmetests und JUnit-Berichte:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m xmlrunner discover -s tests -o reports/unit -v
+python -m behave --junit --junit-directory reports/acceptance
+```
+
+Die [Testdokumentation](docs/testing.md) beschreibt die Szenarien, Grenzwerte und den Jenkins-Lauf.
+
 Die Demo legt `demo-output/` an. Das Ziel muss leer sein; für weitere Läufe ein neues Ziel wählen:
 
 ```bash
@@ -148,10 +158,14 @@ examples/       Wiederholbare KI-Beispielantwort und exportierter Prompt
 sql/            Acht separat lesbare SQL-Abfragen
 docs/           User Stories, Draw.io-Datei, Vorschauen und Beispielbericht
 tests/          Automatisierte Integrations- und Regressionstests
+features/       Gherkin-Abnahmetests mit Python-Schritten (Behave)
+Jenkinsfile     Regression, Abnahme und Demo mit JUnit-Berichten
 .github/        CI für Python 3.10 und 3.13
 ```
 
 Drei fachliche Tabellen (`brands`, `vehicles`, `offers`) werden um Importprotokoll, Rohzeilen, Fehler, Änderungsverlauf und synthetische Serviceanfragen ergänzt. Fremdschlüssel sind aktiv. Die Tests prüfen unter anderem vollständige Ablehnung fehlerhafter Dateien, Wiederholung nach Korrektur, gleichzeitige identische Imports, Versionskonflikte, defekte XLSX-Dateien, genaue Centbeträge, SQL-Ergebnisse und Inhalte des Excel-Berichts.
+
+GitHub Actions führt Regressionstests, Gherkin-Szenarien und die Demo aus. JUnit-XML und Demoberichte werden pro Python-Version als Artefakt gespeichert. Der `Jenkinsfile` führt dieselben Prüfungen aus und veröffentlicht die XML-Ergebnisse über das JUnit-Plugin. Die Produktionsabhängigkeiten bleiben in `requirements.txt`; Testwerkzeuge stehen separat in `requirements-dev.txt`.
 
 ## Bewusster Umfang
 

@@ -11,6 +11,8 @@
 
 **Nachweis:** `test_valid_import_counts_and_audit`, `test_five_quality_rules_reject_entire_file`, `test_mixed_file_cannot_partially_apply`, `test_same_version_conflict_is_rejected`.
 
+**Ausführbare Abnahme:** `features/import.feature`, Tag `@US1`: CSV/XLSX, centgenaue Preise, vollständige Ablehnung und Versionskonflikt. `tests/test_rule_boundaries.py` prüft zusätzlich erlaubte Grenzwerte und unmittelbar benachbarte ungültige Werte.
+
 ## 2. Wiederkehrende Abläufe überwachen und Fehler beheben
 
 **Als Teammitglied möchte ich neue Update-Dateien automatisch prüfen und fehlerhafte Dateien nach der Korrektur erneut verarbeiten, damit manuelle Wiederholungen und unbemerkte Fehler reduziert werden.**
@@ -22,6 +24,8 @@
 - Quelldateien bleiben erhalten; die Fehlerhistorie ist im Bericht sichtbar.
 
 **Nachweis:** `test_scan_is_idempotent`, `test_corrected_file_can_be_retried_and_duplicates_are_skipped`, `test_concurrent_identical_import_is_applied_once`, `test_malformed_xlsx_does_not_stop_inbox_processing`.
+
+**Ausführbare Abnahme:** Szenario „Ein wiederholter Import erzeugt keine doppelten Änderungen“, Tag `@US2`: derselbe Inhalt erzeugt genau einen Import und eine Änderung.
 
 ## 3. Änderungen und Arbeitsabläufe nachvollziehen
 
