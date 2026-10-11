@@ -63,7 +63,6 @@ def table(sheet, headers, rows, name, start=5):
             if headers[column - 1] == 'updated_at' and isinstance(value, str):
                 cell.value = datetime.strptime(value, '%Y-%m-%d').date()
                 cell.number_format = 'yyyy-mm-dd'
-        sheet.row_dimensions[number].height = 22
     for column, header in enumerate(headers, 1):
         values = [LABELS.get(header, header)] + [str(row[column - 1] or '') for row in rows]
         width = min(58, max(16, max(map(len, values), default=16) + 3))
@@ -87,6 +86,18 @@ def table(sheet, headers, rows, name, start=5):
     sheet.print_title_rows = '%d:%d' % (start, start)
 
 
+def bar_chart(sheet, title, axis_title, column, start, end, anchor):
+    chart = BarChart()
+    chart.title = title
+    chart.y_axis.title = axis_title
+    chart.add_data(Reference(sheet, min_col=column, min_row=start, max_row=end), titles_from_data=True)
+    chart.set_categories(Reference(sheet, min_col=1, min_row=start + 1, max_row=end))
+    chart.legend = None
+    chart.width, chart.height = 17, 9
+    sheet.add_chart(chart, anchor)
+    return chart
+
+
 def export_report(database, destination):
     workbook = Workbook()
     workbook.remove(workbook.active)
@@ -103,10 +114,6 @@ def export_report(database, destination):
             ('Protokollierte Änderungen', db.execute('SELECT COUNT(*) FROM changes').fetchone()[0]),
         ]
         table(summary, ['Kennzahl', 'Anzahl'], metrics, 'Kennzahlen')
-        summary.freeze_panes = None
-        summary.column_dimensions['A'].width = 38
-        summary.column_dimensions['B'].width = 14
-        summary.column_dimensions['C'].width = 3
         rule_labels = {'REQUIRED': 'Pflichtwerte', 'DUPLICATE': 'Doppelte IDs', 'VALUE': 'Wertebereiche',
                        'FOREIGN_KEY': 'Fahrzeugbezug', 'STALE_UPDATE': 'Datenstand', 'FILE_SCHEMA': 'Dateiformat'}
         errors = [(rule_labels.get(row[0], row[0]), row[1]) for row in analysis['04_errors_by_rule'][1]]
@@ -114,21 +121,15 @@ def export_report(database, destination):
         summary.freeze_panes = None
         summary.column_dimensions['A'].width = 38
         summary.column_dimensions['B'].width = 14
+        summary.column_dimensions['C'].width = 3
         if errors:
-            chart = BarChart()
+            chart = bar_chart(summary, 'Fehler nach Prüfregel', 'Anzahl', 2, 14, 14 + len(errors), 'D5')
             chart.type = 'bar'
-            chart.title = 'Fehler nach Prüfregel'
             # In openpyxl BarChart, y_axis is the value axis even for horizontal bars.
-            chart.y_axis.title = 'Anzahl'
             chart.y_axis.numFmt = '0'
             chart.y_axis.majorUnit = 1
             chart.y_axis.scaling.min = 0
             chart.y_axis.scaling.max = max(1, max(row[1] for row in errors))
-            chart.add_data(Reference(summary, min_col=2, min_row=14, max_row=14 + len(errors)), titles_from_data=True)
-            chart.set_categories(Reference(summary, min_col=1, min_row=15, max_row=14 + len(errors)))
-            chart.legend = None
-            chart.width, chart.height = 17, 9
-            summary.add_chart(chart, 'D5')
         put(summary, 22, 1, 'Snapshot (UTC): ' + datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M'))
         put(summary, 23, 1, 'Aktualisierung: Bericht nach einem neuen Import erneut erzeugen.')
 
@@ -148,14 +149,7 @@ def export_report(database, destination):
         table(sheet, *analysis['08_service_by_phase'], 'Servicephasen', start=13)
         put(sheet, 22, 1, 'Phasen sind konstruierte Beispiele, kein Nachweis einer realen Zeitersparnis.')
         sheet.freeze_panes = 'A6'
-        chart = BarChart()
-        chart.title = 'Mittlere Dauer nach Kategorie'
-        chart.y_axis.title = 'Stunden'
-        chart.add_data(Reference(sheet, min_col=3, min_row=5, max_row=8), titles_from_data=True)
-        chart.set_categories(Reference(sheet, min_col=1, min_row=6, max_row=8))
-        chart.legend = None
-        chart.width, chart.height = 17, 9
-        sheet.add_chart(chart, 'F5')
+        bar_chart(sheet, 'Mittlere Dauer nach Kategorie', 'Stunden', 3, 5, 8, 'F5')
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     workbook.save(destination)

@@ -3,31 +3,18 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
 import sqlite3
-import tempfile
 import unittest
 
 from openpyxl import load_workbook
 
 from vehicle_data_quality.__main__ import demo, make_xlsx
-from vehicle_data_quality.database import ROOT, connect, initialize, queries
+from vehicle_data_quality.database import ROOT, connect, queries
 from vehicle_data_quality.pipeline import COLUMNS, process_file, scan
 from vehicle_data_quality.report import export_report, export_queries
+from tests.support import DatabaseTestCase
 
 
-class PipelineTests(unittest.TestCase):
-    def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
-        self.directory = Path(self.temp.name)
-        self.database = self.directory / 'test.sqlite'
-        initialize(self.database)
-
-    def tearDown(self):
-        self.temp.cleanup()
-
-    def rows(self, sql):
-        with connect(self.database) as db:
-            return [dict(row) for row in db.execute(sql)]
-
+class PipelineTests(DatabaseTestCase):
     def write(self, name, records):
         path = self.directory / name
         with path.open('w', newline='', encoding='utf-8') as destination:
@@ -35,10 +22,6 @@ class PipelineTests(unittest.TestCase):
             writer.writeheader()
             writer.writerows(records)
         return path
-
-    def record(self, **overrides):
-        row = dict(zip(COLUMNS, ['TEST01', 'V001', 'Leasing', '123.45', '36', '10000', '2026-10-01']))
-        return {**row, **overrides}
 
     def test_valid_import_counts_and_audit(self):
         result = process_file(self.database, ROOT / 'data/02_valid_updates.csv')

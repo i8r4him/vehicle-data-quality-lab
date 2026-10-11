@@ -29,10 +29,9 @@ def make_xlsx(csv_file, destination):
         for row in records:
             sheet.append([row['offer_id'], row['vehicle_id'], row['product'], float(row['price_eur']),
                           int(row['term_months']), int(row['annual_mileage']), date.fromisoformat(row['updated_at'])])
-    for cell in sheet['D'][1:]:
-        cell.number_format = '0.00'
-    for cell in sheet['G'][1:]:
-        cell.number_format = 'yyyy-mm-dd'
+    for column, number_format in [('D', '0.00'), ('G', 'yyyy-mm-dd')]:
+        for cell in sheet[column][1:]:
+            cell.number_format = number_format
     sheet.freeze_panes = 'A2'
     sheet.auto_filter.ref = sheet.dimensions
     workbook.save(destination)
@@ -71,12 +70,8 @@ def main():
         command.add_argument('inbox')
         if name == 'watch':
             command.add_argument('--interval', type=float, default=5)
-    report = commands.add_parser('report')
-    report.add_argument('--output', default='reports/report.xlsx')
-    query = commands.add_parser('queries')
-    query.add_argument('--output', default='reports/sql-results')
-    example = commands.add_parser('demo')
-    example.add_argument('--output', default='demo-output')
+    for name, output in [('report', 'reports/report.xlsx'), ('queries', 'reports/sql-results'), ('demo', 'demo-output')]:
+        commands.add_parser(name).add_argument('--output', default=output)
     args = parser.parse_args()
     try:
         if args.command == 'demo':

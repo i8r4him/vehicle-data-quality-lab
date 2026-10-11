@@ -1,21 +1,13 @@
-from pathlib import Path
-from tempfile import TemporaryDirectory
 import unittest
 
-from vehicle_data_quality.database import connect, initialize
-from vehicle_data_quality.pipeline import COLUMNS, validate
+from vehicle_data_quality.database import connect
+from vehicle_data_quality.pipeline import validate
+from tests.support import DatabaseTestCase
 
 
-class RuleBoundaryTests(unittest.TestCase):
-    def setUp(self):
-        temporary = TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.database = Path(temporary.name) / 'rules.sqlite'
-        initialize(self.database)
-
+class RuleBoundaryTests(DatabaseTestCase):
     def check_value(self, field, value, accepted, expected=None):
-        record = dict(zip(COLUMNS, ['TEST01', 'V001', 'Leasing', '123.45', '36', '10000', '2026-10-01']))
-        record[field] = value
+        record = self.record(**{field: value})
         with connect(self.database) as db:
             candidates, issues = validate([record], db)
         if accepted:
@@ -65,7 +57,7 @@ class RuleBoundaryTests(unittest.TestCase):
                                      ('349.00', '2026-09-01', False),
                                      ('349.00', '2026-09-02', True)]:
             with self.subTest(price=price, date=day):
-                record = dict(zip(COLUMNS, ['OFF001', 'V001', 'Leasing', price, '36', '10000', day]))
+                record = self.record(offer_id='OFF001', price_eur=price, updated_at=day)
                 with connect(self.database) as db:
                     candidates, issues = validate([record], db)
                 self.assertEqual(bool(candidates), accepted)
